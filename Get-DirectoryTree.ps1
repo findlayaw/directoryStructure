@@ -73,23 +73,19 @@ function Get-DirectoryStructure {
     }
 }
 
-# Create header
-$header = @(
-    "Directory Tree for: $currentDirPath"
-    "========================================"
-)
-
 # Get the directory structure
 $dirTree = @(Get-DirectoryStructure -path $currentDirPath)
 
-# Combine header and directory tree
-$fullOutput = $header + $dirTree
+# Create XML output
+$xmlOutput = "<directory>`n"
+$xmlOutput += $dirTree -join "`n"
+$xmlOutput += "`n</directory>"
 
 # Copy to clipboard
-$fullOutput | Set-Clipboard
+$xmlOutput | Set-Clipboard
 
 # Display in console
-$fullOutput | ForEach-Object { Write-Output $_ }
+Write-Output $xmlOutput
 
 # Notify user
 Write-Output ""
