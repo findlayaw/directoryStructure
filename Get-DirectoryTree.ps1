@@ -63,8 +63,11 @@ function Get-DirectoryStructure {
         # Skip if the item should be ignored based on .gitignore
         if (Should-Ignore -path $item.FullName) { continue }
 
-        # Output the full path
-        $item.FullName
+        # Output the relative path
+        $relativePath = $item.FullName.Substring($currentDirPath.Length).TrimStart('\', '/')
+        if (-not [string]::IsNullOrEmpty($relativePath)) {
+            $relativePath
+        }
 
         # If it's a directory, recursively get its contents
         if ($item.PSIsContainer) {
